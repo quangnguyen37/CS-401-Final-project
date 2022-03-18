@@ -1,0 +1,19 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2636
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 Server\
+Clients - store in hidden way, have files that are visible\
+Files - handed around and passed around, check in or check out, state of file, last modified\
+Node has file storage class\
+Client has class, and depending on who is accessing the class, different operations are allowed\
+Update requirements\
+Something like programmers choice on how we implement a smart redundancy but we want it thought out - example client node with no fils then the server says stuff a file in there, currently total system files = 0, total files online = 6, one user uploads a file so based on server space it uploads a file, server keeps track of files, changes by having six nodes and 100 files, nodes reach full capacity, so don\'92t store redundant file, just overwrite it\
+Client and server interaction - network message class is an interface, different types of login message, etc.\
+Network message is a class\
+No handler, server and client send messages to each other, we send the message class\
+Make a file class to be able to send through the sockets\
+}
