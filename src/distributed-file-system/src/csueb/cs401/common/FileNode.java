@@ -5,7 +5,7 @@ import java.util.Date;
 public class FileNode {
 	
 	private Date created;
-	private byte[] content;
+	private String fileName;
 	private String owner;
 	private String nodeOwner;
 	
@@ -19,12 +19,6 @@ public class FileNode {
 	public void setCreated(Date created) {
 		this.created = created;
 	}
-	public byte[] getContent() {
-		return content;
-	}
-	public void setContent(byte[] content) {
-		this.content = content;
-	}
 	public String getOwner() {
 		return owner;
 	}
@@ -36,6 +30,12 @@ public class FileNode {
 	}
 	public void setNodeOwner(String nodeOwner) {
 		this.nodeOwner = nodeOwner;
+	}
+	public String getFileName() {
+		return fileName;
+	}
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 	
 }
