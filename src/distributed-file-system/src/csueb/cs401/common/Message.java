@@ -22,11 +22,17 @@ public class Message implements Serializable {
 			READ_FILE,
 	}
 	
+	public static enum Status {
+		SUCCESS,
+		FAILURE
+	}
+	
 	private Type type;
 	private Payload payload;
 	private String date;
 	private String message;
 	private String user;
+	private Status status;
 	
 	public Message(Type type) {
 		this.type = type;
@@ -61,5 +67,13 @@ public class Message implements Serializable {
 	}
 	public void setUser(String user) {
 		this.user = user;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 }
