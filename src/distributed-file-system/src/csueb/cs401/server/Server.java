@@ -3,6 +3,8 @@ package csueb.cs401.server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +12,7 @@ import java.util.logging.Logger;
 
 import csueb.cs401.common.FileNode;
 import csueb.cs401.common.Message;
+import csueb.cs401.common.User;
 
 /**
  * @author michaelvu
@@ -33,6 +36,7 @@ public class Server {
 	
 	private Logger LOGGER;
 	
+	private HashMap<String, User> registeredUsers = new HashMap<>();
 	private HashMap<String, ClientHandler> activeAuthClients = new HashMap<>(); // userid to user
 	private HashMap<String, List<FileNode>> fileDistribution = new HashMap<>(); // file name to FileNode
 	private Map<Message.Type, Service> services = Map.of(
@@ -86,6 +90,9 @@ public class Server {
 		}
 	}
 	
+	public synchronized HashMap<String, User> getRegisteredUsers() {
+		return registeredUsers;
+	}
 	public synchronized HashMap<String, ClientHandler> getActiveClients() {
 		return activeAuthClients;
 	}

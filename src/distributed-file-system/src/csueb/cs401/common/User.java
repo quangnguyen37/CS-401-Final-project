@@ -2,8 +2,7 @@ package csueb.cs401.common;
 
 public class User {
 
-	private String id;
-	private String name;
+	private String id; // loginUserName + loginPassword
 	private String loginUserName;
 	private String loginPassword;
 
@@ -12,12 +11,6 @@ public class User {
 	}
 	public void setId(String id) {
 		this.id = id;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
 	}
 	public String getLoginUserName() {
 		return loginUserName;
