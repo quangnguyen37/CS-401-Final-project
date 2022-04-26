@@ -50,6 +50,8 @@ public class ClientHandler implements Runnable{
 						try {
 							int result = service.run(req, this);
 							if (result != 0) {
+								Message res = new Message(Message.Type.ERROR);
+								res.setMessage("something went wrong");
 								Server.getInstance().getLogger().warning("Failure with service " + service.getClass().getSimpleName());
 							}
 						} catch (Exception e) {
@@ -70,10 +72,14 @@ public class ClientHandler implements Runnable{
 			Server.getInstance().getLogger().severe(e.getLocalizedMessage());
 		} finally {
 			try {
+				// clean up
 				Server.getInstance().getLogger().info("Terminating connection with " + client.getInetAddress().getHostAddress());
 				if(objInStream != null) objInStream.close();
 				if (objOutStream != null) objOutStream.close();
 				client.close();
+				if (isAuthenticated) {
+					Server.getInstance().getActiveClients().remove(user.getLoginUserName().concat(user.getLoginPassword()));
+				}
 			} catch (IOException e) {
 				Server.getInstance().getLogger().severe(e.getLocalizedMessage());
 			}
