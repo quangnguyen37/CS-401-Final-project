@@ -1,5 +1,7 @@
 package csueb.cs401.server;
 
+import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 
 import csueb.cs401.common.LoginBody;
@@ -50,6 +52,16 @@ public class ServiceLogin implements Service{
 		}
 		
 		Server.getInstance().getActiveClients().put(id, ref);
+		
+		Message res = new Message(Message.Type.LOGIN);
+		res.setDate(new Date().toString());
+		res.setMessage("You are now logged in");
+		res.setStatus(Message.Status.SUCCESS);
+		try {
+			ref.getObjOutStream().writeObject(res);
+		} catch (IOException e) {
+			return -1;
+		}
 		
 		return 0;
 	}

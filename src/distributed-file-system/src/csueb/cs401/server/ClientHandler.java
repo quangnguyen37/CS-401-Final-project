@@ -1,10 +1,10 @@
 package csueb.cs401.server;
 
-import java.awt.TrayIcon.MessageType;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Date;
 
 import csueb.cs401.common.Message;
 import csueb.cs401.common.User;
@@ -45,6 +45,16 @@ public class ClientHandler implements Runnable{
 						break;
 					}
 					
+					// ensure that client is authenticated before making requests
+					if (!req.getType().equals(Message.Type.LOGIN) && !isAuthenticated) {
+						Message noAuth = new Message(Message.Type.ERROR);
+						noAuth.setDate(new Date().toString());
+						noAuth.setMessage("User need to be authenticated before making requests.");
+						noAuth.setStatus(Message.Status.FAILURE);
+						objOutStream.writeObject(noAuth);
+						
+					}
+					
 					Service service = Server.getInstance().getService(req.getType());
 					if (service != null) {
 						try {
@@ -52,6 +62,9 @@ public class ClientHandler implements Runnable{
 							if (result != 0) {
 								Message res = new Message(Message.Type.ERROR);
 								res.setMessage("something went wrong");
+								res.setDate(new Date().toString());
+								res.setStatus(Message.Status.FAILURE);
+								objOutStream.writeObject(res);
 								Server.getInstance().getLogger().warning("Failure with service " + service.getClass().getSimpleName());
 							}
 						} catch (Exception e) {
@@ -60,6 +73,8 @@ public class ClientHandler implements Runnable{
 					} else {
 						Message res = new Message(Message.Type.ERROR);
 						res.setMessage("invalid service");
+						res.setDate(new Date().toString());
+						res.setStatus(Message.Status.FAILURE);
 						objOutStream.writeObject(res);
 					}
 					

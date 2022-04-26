@@ -1,6 +1,8 @@
 package csueb.cs401.common;
 
-public class LoginBody implements Payload {
+import java.io.Serializable;
+
+public class LoginBody implements Payload, Serializable {
 	private String username;
 	private String password;
 	public String getUsername() {
