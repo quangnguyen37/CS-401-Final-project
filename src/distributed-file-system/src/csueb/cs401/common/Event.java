@@ -1,5 +1,3 @@
-package csueb.cs401.common;
-
 import java.util.Date;
 
 public class Event {
@@ -14,7 +12,7 @@ public class Event {
 	// Default constructor
 	//*******************************************************
 	public Event() {
-		eventDate.toInstant();
+		eventDate = new Date();
 		eventDescription = new String("");
 		userID = new String("");
 	}
@@ -29,7 +27,7 @@ public class Event {
 	// values specified.
 	//*******************************************************
 	public Event(String inDescription, String inUser) {
-		eventDate.toInstant();
+		eventDate = new Date();
 		this.eventDescription = inDescription;
 		this.userID = inUser;
 	}
@@ -43,7 +41,7 @@ public class Event {
 	// set to current date and time with values specified.
 	//*******************************************************
 	public boolean createEvent(String inDescription, String inUser) {
-		eventDate.toInstant();
+		eventDate = new Date();
 		this.eventDescription = inDescription;
 		this.userID = inUser;
 		
@@ -75,7 +73,7 @@ public class Event {
 	// of clearing
 	//*******************************************************
 	public boolean deleteEvent() {
-		eventDate.toInstant();
+		eventDate = new Date();
 		eventDescription = new String("");
 		userID = new String("");
 		
