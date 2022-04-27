@@ -4,83 +4,61 @@ import java.util.Scanner;
 
 public class Client {
 
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
+    private Socket socket;
+    private ObjectOutputStream oos;
+    private ObjectInputStream ois;
+    private int port;
+    private String host;
 
+    private void init() {
+        port = 8080;
+        host = "localhost";
+    }
+
+    public void start() {
+        // Continue until 'logout' entered
         boolean cont = true;
 
-        String messageChoice;
+        // initialze port and host variables
+        init();
 
-        Scanner sc = new Scanner(System.in);
-
-        System.out.print("Enter the port number to connect to: <7777> ");
-        int port = sc.nextInt();
-
-        System.out.print("Enter the host address to connect to: <localhost> ");
-        String host = sc.next();
-
-        // Continue sending Messages until logout msg is sent
+        // Continue until logout is entered
         while(cont) {
 
-            Socket socket;
-            ObjectOutputStream oos;
-            ObjectInputStream ois;
-
-            System.out.print("\nWhat kind of message would you like to send: ");
-            messageChoice = sc.next();
-
-            sc.nextLine();
-
-            Message msg = new Message();
-
-            if(messageChoice.equalsIgnoreCase("login")) {
-
-                 msg = new Message("login","","none");
-
-            } else if(messageChoice.equalsIgnoreCase("text")) {
-
-                 msg = new Message("text","","");
-
-                 System.out.print("Please enter text to send: ");
-
-                 String text = sc.nextLine();
-
-                 msg.setText(text);
-
-            } else if (messageChoice.equalsIgnoreCase("logout")) {
-
-                 msg = new Message("logout","","none");
-
-                 cont = false;
-
+            try {
+                socket = new Socket(host, port);
+            } catch (UnknownHostException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
-
-            socket = new Socket(host, port);
-
-            oos = new ObjectOutputStream(socket.getOutputStream());
-
-            System.out.println("\nSending " + msg.getType() + " message to Socket Server...");
-
-            // Send msg to server
-            oos.writeObject(msg);
-
-            ois = new ObjectInputStream(socket.getInputStream());
-            
-            // Receive msg from server
-            msg = (Message) ois.readObject();
-            System.out.println("Message received from Server!\n" + printMessage(msg));
-
-            ois.close();
-            oos.close();
 
         }
 
-        System.out.println("\nServer closed connection. Thank you!");
+        // Server is closed
 
     }
 
-    // Function to print Message attributes
-    private static String printMessage(Message msg) {
-        return "Type: " + msg.getType() + "\nStatus: " + msg.getStatus() + "\nText: " + msg.getText();
+    public void sendObj() {
+
+        oos = new ObjectOutputStream(socket.getOutputStream());
+
+        // Send obj to server
+        // Needs completion
+        oos.writeObject(/*obj*/);
+
+    }
+
+    public void receiveObj() {
+
+        ois = new ObjectInputStream(socket.getInputStream());
+
+        // Receive object from server
+        // Needs completion
+        /*obj*/ = (Message) ois.readObject();
+
     }
 
 }
