@@ -22,6 +22,7 @@ public class Message implements Serializable {
 			POST_FILE_RESPONSE,
 			READ_FILE_REQUEST,
 			READ_FILE_RESPONSE,
+			LOGS
 	}
 	
 	public static enum Status {

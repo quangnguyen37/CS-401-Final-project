@@ -3,8 +3,6 @@ package csueb.cs401.server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +11,7 @@ import java.util.logging.Logger;
 import csueb.cs401.common.FileNode;
 import csueb.cs401.common.Message;
 import csueb.cs401.common.User;
+import csueb.cs401.persist.EventLog;
 
 /**
  * @author michaelvu
@@ -39,6 +38,7 @@ public class Server {
 	private int redundancyTarget; // target # of nodes that server will try to push file to
 	
 	private Logger LOGGER;
+	private EventLog eventLog;
 	
 	private HashMap<String, User> registeredUsers = new HashMap<>();
 	private HashMap<String, ClientHandler> activeAuthClients = new HashMap<>(); // userid to user
@@ -50,7 +50,8 @@ public class Server {
 			Message.Type.READ_FILE_REQUEST, new ServiceReadFileRequest(),
 			Message.Type.READ_FILE_RESPONSE, new ServiceReadFileResponse(),
 			Message.Type.POST_FILE_REQUEST, new ServicePostFileRequest(),
-			Message.Type.POST_FILE_RESPONSE, new ServicePostFileResponse()
+			Message.Type.POST_FILE_RESPONSE, new ServicePostFileResponse(),
+			Message.Type.LOGS, new ServiceGetLogs()
 		);
 	
 	private Server() {}
@@ -76,6 +77,8 @@ public class Server {
 		} else {
 			redundancyTarget = 3;
 		}
+		// init event log
+		eventLog = new EventLog();
 		// init logger
 		System.setProperty("java.util.logging.SimpleFormatter.format",
 	              "[%1$tF %1$tT] [%4$-7s] %5$s %n");
@@ -124,5 +127,9 @@ public class Server {
 	}
 	public int getRedundancyTarget() {
 		return redundancyTarget;
+	}
+
+	public EventLog getEventLog() {
+		return eventLog;
 	}
 }
