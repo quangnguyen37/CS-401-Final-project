@@ -2,7 +2,7 @@ package csueb.cs401.common;
 
 import java.util.Date;
 
-public class FileNode {
+public class FileNode implements Payload {
 	
 	private Date created;
 	private String fileName;

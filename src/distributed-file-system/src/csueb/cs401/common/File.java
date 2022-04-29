@@ -6,6 +6,11 @@ public class File implements Payload {
 	private byte[] content;
 	private String owner;
 	
+	public File(String fileName, byte[] content) {
+		this.fileName = fileName;
+		this.content = content;
+	}
+	
 	public String getFileName() {
 		return fileName;
 	}

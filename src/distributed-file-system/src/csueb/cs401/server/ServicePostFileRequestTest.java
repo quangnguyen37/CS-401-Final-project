@@ -18,7 +18,7 @@ class ServicePostFileRequestTest {
 		HashMap<String, List<FileNode>> fileDistribution = Server.getInstance().getFileDistribution();
 		fileDistribution.put(existingFile, null);
 		Message message = new Message();
-		File f = new File();
+		File f = new File("temp", "\u00e0\u004f\u0030\u009d".getBytes());
 		f.setFileName(existingFile);
 		message.setPayload(f);
 		ServicePostFileRequest svc = new ServicePostFileRequest();

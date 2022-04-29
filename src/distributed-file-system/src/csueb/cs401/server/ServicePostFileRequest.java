@@ -35,6 +35,7 @@ public class ServicePostFileRequest implements Service {
 		if (message.getPayload() != null && message.getPayload() instanceof File) {
 			// ensure valid payload
 			File payload = (File) message.getPayload();
+			payload.setOwner(ref.getUser().getId());
 			HashMap<String, List<FileNode>> fileDistribution = Server.getInstance().getFileDistribution();
 			if (!fileDistribution.containsKey(payload.getFileName())) {
 				// ensure unique file name
