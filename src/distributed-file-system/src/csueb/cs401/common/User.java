@@ -5,6 +5,7 @@ public class User {
 	private String id; // loginUserName + loginPassword
 	private String loginUserName;
 	private String loginPassword;
+	private boolean isAdmin;
 
 	public String getId() {
 		return id;
@@ -23,5 +24,11 @@ public class User {
 	}
 	public void setLoginPassword(String loginPassword) {
 		this.loginPassword = loginPassword;
+	}
+	public boolean isAdmin() {
+		return isAdmin;
+	}
+	public void setAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
 	}
 }
