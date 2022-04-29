@@ -2,7 +2,7 @@ package csueb.cs401.server;
 
 import csueb.cs401.common.Message;
 
-public class ServicePostFile implements Service {
+public class ServiceReadFileRequest implements Service {
 
 	@Override
 	public int run(Message message, ClientHandler ref) {

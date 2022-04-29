@@ -33,6 +33,7 @@ public class Server {
 	
 	private ServerSocket socket;
 	private int port;
+	private int redundancyTarget; // target # of nodes that server will try to push file to
 	
 	private Logger LOGGER;
 	
@@ -42,8 +43,8 @@ public class Server {
 	private Map<Message.Type, Service> services = Map.of(
 			Message.Type.LOGIN, new ServiceLogin(),
 			Message.Type.SEARCH, new ServiceSearch(),
-			Message.Type.READ_FILE, new ServiceReadFile(),
-			Message.Type.POST_FILE, new ServicePostFile()
+			Message.Type.READ_FILE_REQUEST, new ServiceReadFileRequest(),
+			Message.Type.POST_FILE_REQUEST, new ServicePostFileRequest()
 		);
 	
 	private Server() {}
@@ -63,6 +64,12 @@ public class Server {
 		} else {
 			port = 8080;
 		}
+		// init redundancies
+		if (System.getenv("redundancies") != null) {
+			redundancyTarget = Integer.valueOf(System.getenv("redundancies"));
+		} else {
+			redundancyTarget = 3;
+		}
 		// init logger
 		System.setProperty("java.util.logging.SimpleFormatter.format",
 	              "[%1$tF %1$tT] [%4$-7s] %5$s %n");
@@ -73,6 +80,7 @@ public class Server {
 		try {
 			socket = new ServerSocket(port);
 			LOGGER.info("Server now accepting requests on port " + port);
+			LOGGER.info("Redundancy target: " + redundancyTarget);
 			socket.setReuseAddress(true);
 			
 			// infinite loop for getting client requests
@@ -105,5 +113,8 @@ public class Server {
 	}
 	public Service getService(Message.Type type) {
 		return services.get(type);
+	}
+	public int getRedundancyTarget() {
+		return redundancyTarget;
 	}
 }

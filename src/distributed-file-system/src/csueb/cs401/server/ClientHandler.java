@@ -69,6 +69,11 @@ public class ClientHandler implements Runnable{
 							}
 						} catch (Exception e) {
 							Server.getInstance().getLogger().warning(e.getLocalizedMessage());
+							Message res = new Message(Message.Type.ERROR);
+							res.setMessage("something went wrong");
+							res.setDate(new Date().toString());
+							res.setStatus(Message.Status.FAILURE);
+							objOutStream.writeObject(res);
 						}
 					} else {
 						Message res = new Message(Message.Type.ERROR);
@@ -100,6 +105,10 @@ public class ClientHandler implements Runnable{
 			}
 		}
 		
+	}
+	
+	public boolean isOpen() {
+		return !client.isClosed();
 	}
 	
 	/*

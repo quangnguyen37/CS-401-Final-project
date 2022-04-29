@@ -18,8 +18,10 @@ public class Message implements Serializable {
 			LOGOUT,
 			SEARCH,
 			ERROR,
-			POST_FILE,
-			READ_FILE,
+			POST_FILE_REQUEST,
+			POST_FILE_RESPONSE,
+			READ_FILE_REQUEST,
+			READ_FILE_RESPONSE,
 	}
 	
 	public static enum Status {
@@ -34,8 +36,17 @@ public class Message implements Serializable {
 	private String user;
 	private Status status;
 	
+	public Message() {
+		
+	}
+	
 	public Message(Type type) {
 		this.type = type;
+	}
+	
+	public Message(Type type, Status status) {
+		this.type = type;
+		this.status = status;
 	}
 	
 	public Type getType() {
