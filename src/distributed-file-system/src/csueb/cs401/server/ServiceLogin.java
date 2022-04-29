@@ -10,7 +10,10 @@ import csueb.cs401.common.User;
 
 /**
  * @author michaelvu
- * This class implements the login use case for the server module.
+ * This class will receive a {@code Message} expecting a payload of type
+ * {@code LoginBody} which requires
+ * 		1. username
+ * 		2. password
  *
  * It will create an id based on the concatenation of the username and password.
  * This id will be the key index.

@@ -13,6 +13,9 @@ import csueb.cs401.common.Message.Type;
  * This class will receive a {@code Message} expecting a payload of type
  * {@code File} which only needs the file name field.
  * 
+ * This class will return a {@code Message} of type {@code Message.Type.READ_FILE_REQUEST)
+ * and a payload of type {@code File}. The file contains a token and owner.
+ * 
  * It will create an asynchronous request to all the nodes registered with the requested file.
  * 
  * It will generate a token that is recorded onto the server and passed to all requests to the node

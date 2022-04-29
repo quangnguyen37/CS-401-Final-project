@@ -16,6 +16,14 @@ import csueb.cs401.common.Message.Type;
  * @author michaelvu
  * This class will receive a {@code Message} expecting a payload of type
  * {@code File}. 
+ * 
+ * This class will return a {@code Message} with either type of Message.Type.POST_FILE_REQUEST or Message.Type.POST_FILE_RESPONSE.
+ * If the message type is Message.Type.POST_FILE_RESPONSE, this means that the server has finished processing
+ * the request sent by the client. 
+ * If the message type is Message.Type.POST_FILE_REQUEST, this means that the server is pushing 
+ * a payload of {@code File} to the client expecting the client to
+ * 		1. write to file system
+ * 		2. notify server by writing a message of type Message.Type.POST_FILE_RESPONSE from client to server
  *
  * It will iterate through the active clients that are connected to the server
  * and push the {@code File} payload to the client until all iterations have run or the
@@ -55,7 +63,7 @@ public class ServicePostFileRequest implements Service {
 						return;
 					}
 				});
-				Message res = new Message(Message.Type.POST_FILE_REQUEST, Status.SUCCESS);
+				Message res = new Message(Message.Type.POST_FILE_RESPONSE, Status.SUCCESS);
 				res.setMessage("File [" + payload.getFileName() + "] has been pushed into the system.");
 				try {
 					ref.getObjOutStream().writeObject(res);

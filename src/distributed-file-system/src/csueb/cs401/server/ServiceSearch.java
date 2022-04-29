@@ -10,6 +10,11 @@ import csueb.cs401.common.SearchBody;
 
 /**
  * @author michaelvu
+ * This class will receive a {@code Message} expecting no payload.
+ * 
+ * This class will return a {@code Message} with a payload of type {@code SearchBody}
+ * containing a List<FileNode> nodes.
+ * 
  * This class will write a {@code Message} to the socket output stream
  * with the list of all files uploaded to the system.
  */

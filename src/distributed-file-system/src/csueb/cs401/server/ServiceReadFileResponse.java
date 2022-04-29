@@ -15,6 +15,9 @@ import csueb.cs401.common.Message.Status;
  * 		3. owner
  * 		4. token 
  * 
+ * This class will return a {@code Message} of type Message.Type.READ_FILE_RESPONSE
+ * with a file containing all the contents listed above.
+ * 
  * It's purpose is to handle a client message containing the requested file contents.
  * 
  * It will check if the original request was handled already. If so, it will return the file
