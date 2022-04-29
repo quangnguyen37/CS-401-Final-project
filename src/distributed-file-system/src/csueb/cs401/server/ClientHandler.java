@@ -8,6 +8,7 @@ import java.util.Date;
 
 import csueb.cs401.common.Message;
 import csueb.cs401.common.User;
+import csueb.cs401.persist.EventLog;
 
 public class ClientHandler implements Runnable{
 
@@ -67,6 +68,9 @@ public class ClientHandler implements Runnable{
 								objOutStream.writeObject(res);
 								Server.getInstance().getLogger().warning("Failure with service " + service.getClass().getSimpleName());
 							}
+							// log event
+							EventLog el = Server.getInstance().getEventLog();
+							el.addEvent(result == 0 ? "Request of type [" + req.getType().toString() + "] successfully handled" : "Request of type [\" + req.getType().toString() + \"] failed", user.getId());
 						} catch (Exception e) {
 							Server.getInstance().getLogger().warning(e.getLocalizedMessage());
 							Message res = new Message(Message.Type.ERROR);
