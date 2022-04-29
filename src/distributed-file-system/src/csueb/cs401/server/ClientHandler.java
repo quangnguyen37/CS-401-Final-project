@@ -134,7 +134,7 @@ public class ClientHandler implements Runnable{
 		return objInStream;
 	}
 
-	public ObjectOutputStream getObjOutStream() {
+	public synchronized ObjectOutputStream getObjOutStream() {
 		return objOutStream;
 	}
 

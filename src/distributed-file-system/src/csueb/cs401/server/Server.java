@@ -26,6 +26,9 @@ import csueb.cs401.common.User;
  * 
  * The class holds a mapped distribution of file names with the associated nodes that
  * hold the files.
+ * 
+ * The class holds a map of generated read file request tokens to the resolve state 
+ * of its response.
  */
 public class Server {
 
@@ -40,11 +43,14 @@ public class Server {
 	private HashMap<String, User> registeredUsers = new HashMap<>();
 	private HashMap<String, ClientHandler> activeAuthClients = new HashMap<>(); // userid to user
 	private HashMap<String, List<FileNode>> fileDistribution = new HashMap<>(); // file name to FileNode
+	private HashMap<String, Boolean> resolvedReadRequests = new HashMap<>(); // tokens to resolve state
 	private Map<Message.Type, Service> services = Map.of(
 			Message.Type.LOGIN, new ServiceLogin(),
 			Message.Type.SEARCH, new ServiceSearch(),
 			Message.Type.READ_FILE_REQUEST, new ServiceReadFileRequest(),
-			Message.Type.POST_FILE_REQUEST, new ServicePostFileRequest()
+			Message.Type.READ_FILE_RESPONSE, new ServiceReadFileResponse(),
+			Message.Type.POST_FILE_REQUEST, new ServicePostFileRequest(),
+			Message.Type.POST_FILE_RESPONSE, new ServicePostFileResponse()
 		);
 	
 	private Server() {}
@@ -104,7 +110,9 @@ public class Server {
 	public synchronized HashMap<String, ClientHandler> getActiveClients() {
 		return activeAuthClients;
 	}
-	
+	public synchronized HashMap<String, Boolean> getResolvedReadRequests() {
+		return resolvedReadRequests;
+	}
 	public synchronized HashMap<String, List<FileNode>> getFileDistribution() {
 		return fileDistribution;
 	}
