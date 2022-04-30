@@ -8,6 +8,8 @@ import java.util.logging.Logger;
 import csueb.cs401.common.Message;
 import csueb.cs401.server.ClientHandler;
 import csueb.cs401.server.Server;
+import csueb.cs401.common.File;
+import csueb.cs401.common.FileNode;
 
 public class Client {
 
@@ -52,18 +54,15 @@ private Client() {}
 		// Testing
 		System.out.println("START RUNNING");
 		
-		Message msg = new Message();
 		try {
 			socket = new Socket("localhost", port);
+			oos = new ObjectOutputStream(socket.getOutputStream());
+			ois = new ObjectInputStream(socket.getInputStream());
 			//LOGGER.info("Server now accepting requests on port " + port);
 			//socket.setReuseAddress(true);
 			
-			// infinite loop for getting client requests
-			while (true) {
-				
-				sendObj(msg);
 
-			}
+			
 		} catch (IOException e) {
 			LOGGER.warning(e.getLocalizedMessage());
 		}
@@ -71,7 +70,7 @@ private Client() {}
     
     public void sendObj(Message msg) throws IOException {
 
-        oos = new ObjectOutputStream(socket.getOutputStream());
+        
 
         // Send obj to server
         // Needs completion
@@ -82,7 +81,7 @@ private Client() {}
 
     public void receiveObj(Message msg) throws IOException {
 
-        ois = new ObjectInputStream(socket.getInputStream());
+        
 
         // Receive object from server
         // Needs completion
@@ -93,6 +92,46 @@ private Client() {}
 			e.printStackTrace();
 		}
 
+    }
+    
+    public void addFile() {
+    	Message msg = new Message(Message.Type.POST_FILE);
+    	File file = new File();
+    	file.setContent(null);
+    	file.setFileName(null);
+    	
+    	try {
+			oos.writeObject(msg);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+    }
+    
+    public void postFileRequest() {
+    	try {
+			Message msg = (Message) ois.readObject();
+			if(msg.getType().equals(Message.Type.POST_FILE)) {
+				File file = (File) msg.getPayload();
+				// persisted and everything fine
+				
+				// Update to get type
+				Message postMsg = new Message(Message.Type.POST_FILE_RESPONSE);
+				
+				FileNode fn = new FileNode();
+				fn.setOwner(file.getOwner());
+				fn.setFileName(file.getFileName());
+				
+				// update repo
+				postMsg.setPayload();
+				
+				oos.writeObject(postMsg);
+			}
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
     }
 
 }
