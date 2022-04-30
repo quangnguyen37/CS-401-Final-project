@@ -1,17 +1,23 @@
 package csueb.cs401.client;
 
+import java.awt.Event;
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
+import javax.swing.JOptionPane;
+
 import csueb.cs401.common.Message;
+import csueb.cs401.persist.EventLog;
 import csueb.cs401.server.ClientHandler;
 import csueb.cs401.server.Server;
 import csueb.cs401.common.File;
 import csueb.cs401.common.FileNode;
+import csueb.cs401.common.LoginBody;
 
-public class Client {
+public class Client extends GUI {
 
 	private static Client me;
 	
@@ -64,82 +70,117 @@ private Client() {}
 			LOGGER.warning(e.getLocalizedMessage());
 		}
 	}
-    
-	// Post File Services
-	
-    public void addFile() {
-    	Message msg = new Message(Message.Type.POST_FILE_REQUEST);
-    	File file = new File(null, null);
-    	file.setContent(null);
-    	file.setFileName(null);
-    	
-    	try {
-			oos.writeObject(msg);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 
-    }
-    
-    public void postFileRequest() {
-    	try {
-			Message msg = (Message) ois.readObject();
-			if(msg.getType().equals(Message.Type.POST_FILE_RESPONSE)) {
-				File file = (File) msg.getPayload();
-				// persisted and everything fine
-				
-				// Update to get type
-				Message postMsg = new Message(Message.Type.POST_FILE_RESPONSE);
-				
-				FileNode fn = new FileNode();
-				fn.setOwner(file.getOwner());
-				fn.setFileName(file.getFileName());
-				
-				// update repo
-				postMsg.setPayload(fn);
-				
-				oos.writeObject(postMsg);
+	public static class commands {
+		// Post File Services
+
+		public static void addFile() {
+			Message msg = new Message(Message.Type.POST_FILE_REQUEST);
+			File file = new File(null, null);
+			file.setContent(null);
+			file.setFileName(null);
+
+			try {
+				oos.writeObject(msg);
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-		} catch (ClassNotFoundException | IOException e) {
-			e.printStackTrace();
-		}
-    	
-    }
-    
-    // Read File Services
-	public void readFile() {
-    	
-    	Message msg = new Message(Message.Type.READ_FILE_REQUEST);
-    	
-    	File file = new File(null, null);
-    	file.setContent(null);
-    	file.setFileName(null);
 
-    	try {
-			oos.writeObject(msg);
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
-    	
-    }
-    
-    public void readFileRequest() {
-    	try {
-    		
-    		Message msg = (Message) ois.readObject();
-    		if(msg.getType().equals(Message.Type.READ_FILE_RESPONSE)) {
-    			File file = (File) msg.getPayload();
-    			
-    			FileNode fn = new FileNode();
-    			fn.setOwner(file.getOwner());
-    			fn.setFileName(file.getFileName());
-    			
-    		}
-    		
-    	} catch (ClassNotFoundException | IOException e) {
-			e.printStackTrace();
+
+		public void postFileRequest() {
+			try {
+				Message msg = (Message) ois.readObject();
+				if (msg.getType().equals(Message.Type.POST_FILE_RESPONSE)) {
+					File file = (File) msg.getPayload();
+					// persisted and everything fine
+
+					// Update to get type
+					Message postMsg = new Message(Message.Type.POST_FILE_RESPONSE);
+
+					FileNode fn = new FileNode();
+					fn.setOwner(file.getOwner());
+					fn.setFileName(file.getFileName());
+
+					// update repo
+					postMsg.setPayload(fn);
+
+					oos.writeObject(postMsg);
+				}
+			} catch (ClassNotFoundException | IOException e) {
+				e.printStackTrace();
+			}
+
 		}
-    	
-    }
+
+		// Read File Services
+		public static void readFile() {
+
+			Message msg = new Message(Message.Type.READ_FILE_REQUEST);
+
+			File file = new File(null, null);
+			file.setContent(null);
+			file.setFileName(null);
+
+			try {
+				oos.writeObject(msg);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		}
+
+		public void readFileRequest() {
+			try {
+
+				Message msg = (Message) ois.readObject();
+				if (msg.getType().equals(Message.Type.READ_FILE_RESPONSE)) {
+					File file = (File) msg.getPayload();
+
+					FileNode fn = new FileNode();
+					fn.setOwner(file.getOwner());
+					fn.setFileName(file.getFileName());
+
+				}
+
+			} catch (ClassNotFoundException | IOException e) {
+				e.printStackTrace();
+			}
+
+		}
+
+		public static void clientLogin() {
+			try {
+				Message msg = (Message) ois.readObject();
+				if (msg.getType().equals(Message.Type.LOGIN)) {
+
+					LoginBody req = (LoginBody) msg.getPayload();
+					req.setUsername(txuser.getText());
+					req.setPassword(pass.getText());
+					
+					msg.setPayload(req);
+					
+					oos.writeObject(msg);
+					
+				}
+			} catch (ClassNotFoundException | IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		public static void eventLog() {
+			public ArrayList<Event> eventLog() {
+		        EventLog eventLog = new EventLog();
+		        eventLog = (EventLog) ois.getPayload().getEventLog();
+		        return eventLog;
+		    }
+		}
+		public static void saveAndExit() {
+			 eventLog.Save();
+		     return 0;
+		}
+		
+		
+	}
 
 }

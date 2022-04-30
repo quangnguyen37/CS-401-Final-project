@@ -1,3 +1,5 @@
+package csueb.cs401.client;
+
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,6 +27,8 @@ import javax.swing.WindowConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import csueb.cs401.client.Client.commands;
+
 public class GUI extends JFrame {
 	 
 	 private JFrame frame;
@@ -36,8 +40,8 @@ public class GUI extends JFrame {
 	 
 	 JButton blogin;
 	 JPanel loginpanel;
-	 JTextField txuser;
-	 JTextField pass;
+	 static JTextField txuser;
+	 static JTextField pass;
 	 JButton newUSer;
 	 JLabel username;
 	 JLabel password;
@@ -47,12 +51,19 @@ public class GUI extends JFrame {
 	 JButton searchFileButton;
 	 JLabel searchFileLabel;
 	 
+	 JFrame frame3;
+	 JTextField addFileName;
+	 JTextField addFileDirect;
+	 JButton addFileButton;
+	 JLabel addFileNameLabel;
+	 JLabel addFileDirectLabel;
 	 
 	 public GUI()
 	 {
 		 
 		 ClientGUIComponents();
 		 login();
+		 addFile();
 		 requestFile();
 	 }
 	 
@@ -73,6 +84,7 @@ public class GUI extends JFrame {
 			addButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					addFile();
+					frame3.setVisible(true);
 				}
 			});
 			buttonBox.add(addButton);
@@ -89,7 +101,7 @@ public class GUI extends JFrame {
 			JButton eventLogButton = new JButton("Event Log");
 			eventLogButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					eventLog();
+					commands.eventLog();
 				}
 			});
 			buttonBox.add(eventLogButton);
@@ -97,7 +109,7 @@ public class GUI extends JFrame {
 			JButton saveAndExit = new JButton("Save and Exit");
 			eventLogButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					saveAndExit();
+					commands.saveAndExit();
 				}
 			});
 			buttonBox.add(saveAndExit);
@@ -109,10 +121,6 @@ public class GUI extends JFrame {
 		}
 		
 		public void processCommands() {
-
-		}
-		
-		public void addFile() {
 
 		}
 
@@ -139,7 +147,7 @@ public class GUI extends JFrame {
 			
 			searchFileButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-
+					
 				}
 
 			});
@@ -148,12 +156,44 @@ public class GUI extends JFrame {
 			frame2.setVisible(false);
 			
 		}
+		
+		private void addFile() {
+			frame3 = new JFrame("Add File");
+			frame3.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+			JPanel searchPanel = new JPanel();
+			frame3.add(searchPanel);
+			
+			addFileButton = new JButton("Add");
+			addFileName = new JTextField(15);
+			addFileNameLabel = new JLabel("File name: ");
+			addFileDirect = new JTextField(30);
+			addFileDirectLabel = new JLabel("File path: ");
+			
+			setSize(300, 200);
+			setLocation(500, 280);
 
-		public void eventLog() {
+			addFileName.setBounds(90, 30, 150, 20);
+			addFileNameLabel.setBounds(20, 28, 80, 20);
+			addFileDirect.setBounds(90, 65, 150, 20);
+			addFileDirectLabel.setBounds(20, 63, 80, 20);
+			addFileButton.setBounds(110, 100, 80, 20);
+			
+			searchPanel.add(addFileNameLabel);
+			searchPanel.add(addFileName);
+			searchPanel.add(addFileDirectLabel);
+			searchPanel.add(addFileDirect);
+			searchPanel.add(addFileButton);
+			
+			addFileButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+				}
 
-		}
-		public void saveAndExit() {
-
+			});
+			
+			frame3.pack();
+			frame3.setVisible(false);
+			
 		}
 
 		private void login() {
@@ -201,45 +241,7 @@ public class GUI extends JFrame {
 
 			blogin.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					try {
-						File file = new File("passWordlist.txt");
-						Scanner scan = new Scanner(file);
-						;
-						String line = null;
-						FileWriter filewrite = new FileWriter(file, true);
-
-						String usertxt = " ";
-						String passtxt = " ";
-						String puname = txuser.getText();
-						String ppaswd = pass.getText();
-
-						while (scan.hasNext()) {
-							usertxt = scan.nextLine();
-							passtxt = scan.nextLine();
-						
-
-						if (puname.equals(usertxt) && ppaswd.equals(passtxt)) {
-							setVisible(false);
-							frame.setVisible(true);
-							dispose();
-						}
-						} 
-						if (puname.equals("") && ppaswd.equals("")) {
-							JOptionPane.showMessageDialog(null, "Please enter info");
-						} 
-						else if (puname != (usertxt) || ppaswd != (passtxt)) {
-							txuser.setText("");
-							pass.setText("");
-							txuser.requestFocus();
-						}
-						else {
-							
-						}
-					} 
-					catch (IOException d) {
-						d.printStackTrace();
-					}
-
+					commands.clientLogin();
 				}
 
 			});
