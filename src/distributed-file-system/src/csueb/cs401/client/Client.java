@@ -1,6 +1,6 @@
 package csueb.cs401.client;
 
-import java.awt.Event;
+//import java.awt.Event;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 
 import csueb.cs401.common.Message;
 import csueb.cs401.persist.EventLog;
+import csueb.cs401.common.Event;
 import csueb.cs401.server.ClientHandler;
 import csueb.cs401.server.Server;
 import csueb.cs401.common.File;
@@ -167,20 +168,34 @@ private Client() {}
 				e.printStackTrace();
 			}
 		}
-		
-		public static void eventLog() {
-			public ArrayList<Event> eventLog() {
-		        EventLog eventLog = new EventLog();
-		        eventLog = (EventLog) ois.getPayload().getEventLog();
-		        return eventLog;
-		    }
-		}
-		public static void saveAndExit() {
-			 eventLog.Save();
-		     return 0;
-		}
-		
-		
-	}
 
+		public EventLog eventLog() {
+		    EventLog eventLog = new EventLog();
+			Message msg = new Message(Message.Type.LOGS);
+
+			// Request logs
+			try {
+				msg.getObjOutStream().writeObject(msg);
+			} catch (IOException e) {
+				return -1;
+			}
+
+			// Receive response
+			Message message = new Message();
+			message.getObjInStream().readObject();
+			if (message.getPayload() != null && message.Status == SUCCESS) {
+				eventLog = message.getPayload().getEventLog();
+			}
+
+	        return eventLog;
+		}
+
+		public static void saveAndExit() {
+			EventLog eLog = new EventLog();
+			eLog.eventLog();
+			eLog.Save();
+			System.exit(0);
+		}
+	}
 }
+
