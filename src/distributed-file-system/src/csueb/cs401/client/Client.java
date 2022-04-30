@@ -55,48 +55,21 @@ private Client() {}
 		System.out.println("START RUNNING");
 		
 		try {
+			
 			socket = new Socket("localhost", port);
 			oos = new ObjectOutputStream(socket.getOutputStream());
 			ois = new ObjectInputStream(socket.getInputStream());
-			//LOGGER.info("Server now accepting requests on port " + port);
-			//socket.setReuseAddress(true);
-			
-
 			
 		} catch (IOException e) {
 			LOGGER.warning(e.getLocalizedMessage());
 		}
 	}
     
-    public void sendObj(Message msg) throws IOException {
-
-        
-
-        // Send obj to server
-        // Needs completion
-        System.out.println("sending msg");
-        oos.writeObject(msg);
-
-    }
-
-    public void receiveObj(Message msg) throws IOException {
-
-        
-
-        // Receive object from server
-        // Needs completion
-        try {
-			msg = (Message) ois.readObject();
-		} catch (ClassNotFoundException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-    }
-    
+	// Post File Services
+	
     public void addFile() {
-    	Message msg = new Message(Message.Type.POST_FILE);
-    	File file = new File();
+    	Message msg = new Message(Message.Type.POST_FILE_REQUEST);
+    	File file = new File(null, null);
     	file.setContent(null);
     	file.setFileName(null);
     	
@@ -111,7 +84,7 @@ private Client() {}
     public void postFileRequest() {
     	try {
 			Message msg = (Message) ois.readObject();
-			if(msg.getType().equals(Message.Type.POST_FILE)) {
+			if(msg.getType().equals(Message.Type.POST_FILE_RESPONSE)) {
 				File file = (File) msg.getPayload();
 				// persisted and everything fine
 				
@@ -123,12 +96,47 @@ private Client() {}
 				fn.setFileName(file.getFileName());
 				
 				// update repo
-				postMsg.setPayload();
+				postMsg.setPayload(fn);
 				
 				oos.writeObject(postMsg);
 			}
 		} catch (ClassNotFoundException | IOException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    }
+    
+    // Read File Services
+	public void readFile() {
+    	
+    	Message msg = new Message(Message.Type.READ_FILE_REQUEST);
+    	
+    	File file = new File(null, null);
+    	file.setContent(null);
+    	file.setFileName(null);
+
+    	try {
+			oos.writeObject(msg);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	
+    }
+    
+    public void readFileRequest() {
+    	try {
+    		
+    		Message msg = (Message) ois.readObject();
+    		if(msg.getType().equals(Message.Type.READ_FILE_RESPONSE)) {
+    			File file = (File) msg.getPayload();
+    			
+    			FileNode fn = new FileNode();
+    			fn.setOwner(file.getOwner());
+    			fn.setFileName(file.getFileName());
+    			
+    		}
+    		
+    	} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		}
     	
