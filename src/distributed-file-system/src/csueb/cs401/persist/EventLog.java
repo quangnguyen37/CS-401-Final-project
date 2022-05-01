@@ -1,18 +1,17 @@
-package csueb.cs401.persist;
-
 import java.io.File;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
-import csueb.cs401.common.Event;
+//import csueb.cs401.common.Event;
 
-public class EventLog {
+ public class EventLog {
 	
-		private Event event = new Event();;
+		//private Event event = new Event();;
 		private List<Event> events = new LinkedList<>();
 		private String filename = "Events.txt";
 		
@@ -22,6 +21,7 @@ public class EventLog {
 		// Default constructor
 		//*******************************************************
 		public void EventLog() {
+			initList();
 		}
 		
 		
@@ -35,12 +35,10 @@ public class EventLog {
 		private void Save() {
 			if(this.events == null) {
 				this.events = new LinkedList<Event>();
-				events.add(event);
 			}
 			
 			else {
-				events.add(event);
-				doSaveToFile(event);
+				doSaveToFile();
 			}
 
 		}
@@ -53,14 +51,14 @@ public class EventLog {
 		// Input: an event
 		// Output: file filename with all events written to OS
 		//*******************************************************
-		public void doSaveToFile(Event event) {
+		private void doSaveToFile() {
 			try {
 				
 				PrintWriter outputFile = new PrintWriter(filename);
 					
 				for (int i = 0; i < events.size(); i++) {
 					
-					String temp = i + ": " + events.get(i).getEvent() + "\n";
+					String temp = i + "," + events.get(i).getEventData() + "\n";
 					
 					outputFile.print(temp);
 				}
@@ -127,10 +125,11 @@ public class EventLog {
 		//*******************************************************
 		public void addEvent(String inDescription, String inUser) {
 			Event temp = new Event(inDescription,inUser);
+			if(this.events.isEmpty()) this.initList();
 			if(!this.events.add(temp)) System.out.println("Cannot add event\n");
 			else {
-				this.events.sort(null);
-				Save();
+				//this.events.sort(null);
+				this.Save();
 			}
 		}
 		
@@ -139,13 +138,16 @@ public class EventLog {
 		//******************************************************
 		// Author: Bryan Graves
 		// Finds events in the log within the range
-		// Input: string start date and end date
+		// Input: string start date and end date null null 
+		// retrieves all events
 		// Output: string all events between those dates
 		//*******************************************************
 		public String findEvents(String startDate, String endDate) {
 			String foundEvents = new String();
 			for(int i=0; i<this.events.size();i++) {
-				
+			//	if(this.events.get(i).) {
+			//		Date
+			//	}
 			}
 			
 			return foundEvents;
@@ -160,7 +162,33 @@ public class EventLog {
 		// Output: loaded event log
 		//*******************************************************
 		private void initList() {
+			ArrayList<String> inList = new ArrayList<>();
+			inList = loadData();
 			
+			for(int i = 0; i < inList.size(); i++) {
+				 String[] temp = inList.get(i).split(",");
+				// String[] inDesc = temp[1];
+				// String[] inUser = temp[2];
+				 Date inDate = toDate(temp[3]);
+			
+			}
 		}
 
+		
+		
+		//******************************************************
+		// Author: Bryan Graves
+		// Loads event log with previous events
+		// Input: file with saved events
+		// Output: loaded event log
+		//*******************************************************
+		private Date toDate(String inDate) {
+			
+			 SimpleDateFormat sdt = new SimpleDateFormat("dd-MM-YYYY");
+			 
+			 String[] inDateStr = inDate.split(" ");
+			
+			Date outDate = new Date();
+			return outDate;
+		}
 }
