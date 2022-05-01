@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
-//import csueb.cs401.common.Event;
+import csueb.cs401.common.Event;
 
  public class EventLog {
 	
@@ -67,8 +67,8 @@ import java.util.Scanner;
 					
 				} catch (Exception e) {
 					
-					// System.out.println("Error!");
-		            
+					e.printStackTrace();
+							            
 				}
 		}
 
@@ -88,7 +88,7 @@ import java.util.Scanner;
 			
 			if (!file.exists()) {
 				
-				// System.out.println("Error!");
+				System.out.println("Error!");
 				
 			}
 			
@@ -107,7 +107,7 @@ import java.util.Scanner;
 				
 			} catch (Exception e) {
 				
-				// System.out.println("Error!");
+				e.printStackTrace();
 	            
 			}
 			
