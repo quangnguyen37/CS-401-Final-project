@@ -13,6 +13,7 @@ import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 import javax.swing.Box;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -33,8 +34,8 @@ public class GUI extends JFrame {
 	 
 	 private JFrame frame;
 	 private JPanel panel;
-	 JList dvdJList;
-	 JScrollPane FileListPane;
+	 JList fileJList;
+	 JScrollPane fileListPane;
 	 String titleText = "FileName: ";
 	 JLabel titleLabel, ratingLabel, runtimeLabel;
 	 
@@ -47,7 +48,7 @@ public class GUI extends JFrame {
 	 JLabel password;
 	  
 	 JFrame frame2;
-	 JTextField searchFile;
+	 static JTextField searchFile;
 	 JButton searchFileButton;
 	 JLabel searchFileLabel;
 	 
@@ -73,6 +74,27 @@ public class GUI extends JFrame {
 			JPanel listPanel = new JPanel();
 			frame.add(listPanel);
 
+			//File List need to get array
+			 DefaultListModel fileList = new DefaultListModel(); 
+			 fileList.addElement("New Item");;
+			 fileJList = new JList(fileList);
+			 fileListPane = new JScrollPane(fileJList);
+			 fileJList.setSelectedIndex(0);
+			 listPanel.add(fileListPane);
+			 fileJList.addListSelectionListener(new ListSelectionListener() {
+				 @Override
+				 public void valueChanged(ListSelectionEvent arg0) {
+					 if (!arg0.getValueIsAdjusting()) {
+						 try {
+							 //updateDVDInfo(fileJList.getSelectedIndex());
+						 } catch (Exception e) {
+							 fileJList.setSelectedIndex(0);
+							 //updateDVDInfo(0);
+						 }
+					 }
+				 }
+			 }); 
+			
 			// File Info Display
 			Box infoBox = Box.createVerticalBox();
 			// infoBox.add(Box.createVerticalStrut(10));
@@ -116,7 +138,7 @@ public class GUI extends JFrame {
 			buttonBox.add(Box.createVerticalStrut(20));
 			listPanel.add(buttonBox);
 			// Show the Frame
-			frame.setVisible(false);
+			frame.setVisible(true);
 			frame.pack();
 		}
 		
@@ -147,7 +169,7 @@ public class GUI extends JFrame {
 			
 			searchFileButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
+					commands.readFile();
 				}
 
 			});
@@ -186,7 +208,7 @@ public class GUI extends JFrame {
 			
 			addFileButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
+					commands.postFileRequest();
 				}
 
 			});
@@ -223,7 +245,7 @@ public class GUI extends JFrame {
 
 			getContentPane().add(loginpanel);
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			setVisible(true);
+			setVisible(false);
 
 			Writer writer = null;
 			File check = new File("passWordlist.txt");
