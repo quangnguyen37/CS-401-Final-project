@@ -22,12 +22,12 @@ public class Client extends GUI {
 
 	private static Client me;
 	
-	private Logger LOGGER;
+	private static Logger LOGGER;
 	
-    private Socket socket;
-    private ObjectOutputStream oos;
-    private ObjectInputStream ois;
-    private int port;
+    private static Socket socket;
+    private static ObjectOutputStream oos;
+    private static ObjectInputStream ois;
+    private static int port;
     
 private Client() {}
 	
@@ -56,7 +56,7 @@ private Client() {}
 		LOGGER = Logger.getLogger(Client.class.getName());
 	}
 	
-	public void start() {
+	public static void start() {
 		
 		// Testing
 		System.out.println("START RUNNING");
@@ -89,7 +89,7 @@ private Client() {}
 
 		}
 
-		public void postFileRequest() {
+		public static void postFileRequest() {
 			try {
 				Message msg = (Message) ois.readObject();
 				if (msg.getType().equals(Message.Type.POST_FILE_RESPONSE)) {
@@ -121,7 +121,7 @@ private Client() {}
 
 			File file = new File(null, null);
 			file.setContent(null);
-			file.setFileName(null);
+			file.setFileName(searchFile.getText());
 
 			try {
 				oos.writeObject(msg);
@@ -169,20 +169,20 @@ private Client() {}
 			}
 		}
 
-		public EventLog eventLog() {
+		public static EventLog eventLog() {
 		    EventLog eventLog = new EventLog();
 			Message msg = new Message(Message.Type.LOGS);
 
 			// Request logs
 			try {
-				msg.getObjOutStream().writeObject(msg);
+				oos.writeObject(msg);
 			} catch (IOException e) {
 				return -1;
 			}
 
 			// Receive response
 			Message message = new Message();
-			message.getObjInStream().readObject();
+			ois.readObject();
 			if (message.getPayload() != null && message.Status == SUCCESS) {
 				eventLog = message.getPayload().getEventLog();
 			}
