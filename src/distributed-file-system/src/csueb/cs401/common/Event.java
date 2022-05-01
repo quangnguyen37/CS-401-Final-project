@@ -1,3 +1,7 @@
+
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Event {
@@ -58,8 +62,29 @@ public class Event {
 	public String getEvent() {
 		String output = new String();
 		
+        // format to date object
+        DateFormat df = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+        // Convert the date into a
+        // string using format() method
+        String dateToString = df.format(eventDate);
+        
 		output = "Desc:" + this.eventDescription + ", User:" +
-				userID + ", Date:" + eventDate.toString();
+				userID + ", Date:" + dateToString;
+		
+		return output;
+	}
+	
+	
+	//******************************************************
+	// Returns event in string format
+	// Input: none 
+	// Output: string Description, User, Date and Time
+	//*******************************************************
+	public String getEventData() {
+		String output = new String();
+        
+		output = this.eventDescription + "," +
+				this.userID + "," + this.eventDate.toInstant();
 		
 		return output;
 	}
