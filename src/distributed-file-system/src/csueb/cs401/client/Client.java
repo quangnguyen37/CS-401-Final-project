@@ -169,27 +169,41 @@ private Client() {}
 			}
 		}
 
+		//////////////////////////////////
+		// Request event log from server
+		// for display in GUI
+		//////////////////////////////////
 		public static EventLog eventLog() {
 		    EventLog eventLog = new EventLog();
+
+			// Send message type LOGS to server
+			// to request event log
 			Message msg = new Message(Message.Type.LOGS);
 
-			// Request logs
 			try {
 				oos.writeObject(msg);
 			} catch (IOException e) {
-				return -1;
+				e.printStackTrace();
 			}
 
-			// Receive response
-			Message message = new Message();
-			ois.readObject();
-			if (message.getPayload() != null && message.Status == SUCCESS) {
-				eventLog = message.getPayload().getEventLog();
+			// Receive event log from server
+			try {
+				Message msgRec = (Message) ois.readObject();
+				//
+				// GET EVENT LOG
+				//
+
+			} catch (ClassNotFoundException | IOException e) {
+				e.printStackTrace();
 			}
 
 	        return eventLog;
 		}
 
+		//////////////////////////////////
+		// Save event log pulled from
+		// server and exit program
+		//////////////////////////////////
 		public static void saveAndExit() {
 			EventLog eLog = new EventLog();
 			eLog.eventLog();
