@@ -4,12 +4,14 @@ package csueb.cs401.client;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 
 import csueb.cs401.common.Message;
+import csueb.cs401.common.SearchBody;
 import csueb.cs401.persist.EventLog;
 import csueb.cs401.common.Event;
 import csueb.cs401.server.ClientHandler;
@@ -119,6 +121,7 @@ private Client() {}
 
 			Message msg = new Message(Message.Type.READ_FILE_REQUEST);
 
+			
 			File file = new File(null, null);
 			file.setContent(null);
 			file.setFileName(searchFile.getText());
@@ -209,6 +212,35 @@ private Client() {}
 			eLog.eventLog();
 			eLog.Save();
 			System.exit(0);
+		}
+		
+		public static List<FileNode> search() {
+			Message msg = new Message(Message.Type.SEARCH);
+			Message msgRec = null;
+			
+			try {
+				oos.writeObject(msg);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			try {
+				msgRec = (Message) ois.readObject();
+				//
+				// GET EVENT LOG
+				//
+
+			} catch (ClassNotFoundException | IOException e) {
+				e.printStackTrace();
+			}
+			if (msgRec != null && msgRec.getPayload() != null && msgRec.getPayload() instanceof SearchBody){
+				
+				return ((SearchBody) msgRec.getPayload()).getNodes();
+			}
+			else {
+				return null;
+			}
 		}
 	}
 }
