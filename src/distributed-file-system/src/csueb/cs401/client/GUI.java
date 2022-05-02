@@ -29,6 +29,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import csueb.cs401.client.Client.commands;
+import csueb.cs401.common.FileNode;
+import csueb.cs401.common.Message;
 
 public class GUI extends JFrame {
 	 
@@ -75,11 +77,13 @@ public class GUI extends JFrame {
 			frame.add(listPanel);
 
 			//File List need to get array
-			 DefaultListModel fileList = new DefaultListModel(); 
-			 fileList.addElement("New Item");;
-			 fileJList = new JList(fileList);
-			 fileListPane = new JScrollPane(fileJList);
-			 fileJList.setSelectedIndex(0);
+			Message msg = new Message(Message.Type.SEARCH);
+			
+			fileJList = new JList(FileNode.toArray());
+			fileListPane = new JScrollPane(fileJList);
+			fileJList.setSelectedIndex(0);
+			 
+			 
 			 listPanel.add(fileListPane);
 			 fileJList.addListSelectionListener(new ListSelectionListener() {
 				 @Override
