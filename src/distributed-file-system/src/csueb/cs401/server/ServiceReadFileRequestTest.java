@@ -2,16 +2,16 @@ package csueb.cs401.server;
 
 import java.util.ArrayList;
 
+import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 import csueb.cs401.common.File;
 import csueb.cs401.common.Message;
 
-class ServiceReadFileRequestTest {
+public class ServiceReadFileRequestTest {
 
 	@Test
-	void test() {
+	public void test() {
 		String fileName = "fileName";
 		
 		Server.getInstance().getFileDistribution().put(fileName, new ArrayList<>());

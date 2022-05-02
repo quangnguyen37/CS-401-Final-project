@@ -1,16 +1,16 @@
 package csueb.cs401.server;
 
+import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 import csueb.cs401.common.LogQuery;
 import csueb.cs401.common.Message;
 import csueb.cs401.common.User;
 
-class ServiceGetLogsTest {
+public class ServiceGetLogsTest {
 
 	@Test
-	void ShouldGetLogs() {
+	public void ShouldGetLogs() {
 		LogQuery req = new LogQuery();
 		Message m = new Message();
 		m.setPayload(req);
