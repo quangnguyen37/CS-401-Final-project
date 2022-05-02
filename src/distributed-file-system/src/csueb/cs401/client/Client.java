@@ -176,9 +176,7 @@ private Client() {}
 		// Request event log from server
 		// for display in GUI
 		//////////////////////////////////
-		public static EventLog eventLog() {
-		    EventLog eventLog = new EventLog();
-
+		public static String eventLog() {
 			// Send message type LOGS to server
 			// to request event log
 			Message msg = new Message(Message.Type.LOGS);
@@ -192,25 +190,36 @@ private Client() {}
 			// Receive event log from server
 			try {
 				Message msgRec = (Message) ois.readObject();
-				//
-				// GET EVENT LOG
-				//
+				if(msgRec != null && msgRec.getMessage() != null) {
+
+					return msgRec.getMessage();
+				}
 
 			} catch (ClassNotFoundException | IOException e) {
 				e.printStackTrace();
 			}
 
-	        return eventLog;
+	        return null;
 		}
 
 		//////////////////////////////////
 		// Save event log pulled from
 		// server and exit program
 		//////////////////////////////////
-		public static void saveAndExit() {
-			EventLog eLog = new EventLog();
-			eLog.eventLog();
-			eLog.Save();
+		public void saveAndExit() {
+			String eLog = eventLog();
+			try {
+				
+				PrintWriter outputFile = new PrintWriter("EventLog");
+				outputFile.print(eLog);
+				outputFile.close();
+					
+				} catch (Exception e) {
+					
+					e.printStackTrace();
+							            
+				}
+
 			System.exit(0);
 		}
 		
