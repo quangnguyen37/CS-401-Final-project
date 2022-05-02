@@ -1,15 +1,15 @@
 package csueb.cs401.server;
 
+import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 import csueb.cs401.common.File;
 import csueb.cs401.common.Message;
 
-class ServiceReadFileResponseTest {
+public class ServiceReadFileResponseTest {
 
 	@Test
-	void ShouldReadFileResponse() {
+	public void ShouldReadFileResponse() {
 		String tok = "aegsrhdtn";
 		Server.getInstance().getResolvedReadRequests().put(tok, false);
 		Message m = new Message();

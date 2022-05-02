@@ -1,3 +1,5 @@
+package csueb.cs401.persist;
+
 import java.io.File;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;

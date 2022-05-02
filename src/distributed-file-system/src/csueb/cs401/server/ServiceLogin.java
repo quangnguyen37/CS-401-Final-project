@@ -14,6 +14,9 @@ import csueb.cs401.common.User;
  * {@code LoginBody} which requires
  * 		1. username
  * 		2. password
+ * 
+ * This class will return a {@code Message} with no payload. The message will contain
+ * the status, message, and timestamp for the request.
  *
  * It will create an id based on the concatenation of the username and password.
  * This id will be the key index.

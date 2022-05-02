@@ -1,16 +1,16 @@
 package csueb.cs401.server;
 
+import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 import csueb.cs401.common.LoginBody;
 import csueb.cs401.common.Message;
 import csueb.cs401.common.User;
 
-class ServiceLoginTest {
+public class ServiceLoginTest {
 
 	@Test
-	void ShouldLoginUser() {
+	public void ShouldLoginUser() {
 		// test values
 		String validUSR = "usr";
 		String validPWD = "pwd";
@@ -43,7 +43,7 @@ class ServiceLoginTest {
 	}
 	
 	@Test
-	void ShouldCreateUser() {
+	public void ShouldCreateUser() {
 		// init runner and test values
 		ServiceLogin svc = new ServiceLogin();
 		ClientHandler hdr = new ClientHandler(null);
@@ -67,7 +67,7 @@ class ServiceLoginTest {
 	}
 	
 	@Test
-	void ShouldBePartOfActiveClients() {
+	public void ShouldBePartOfActiveClients() {
 		// test values
 		String validUSR = "abc";
 		String validPWD = "xyz";

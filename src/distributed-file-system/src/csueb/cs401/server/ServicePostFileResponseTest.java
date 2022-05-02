@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 import csueb.cs401.common.FileNode;
 import csueb.cs401.common.Message;
 import csueb.cs401.common.User;
 
-class ServicePostFileResponseTest {
+public class ServicePostFileResponseTest {
 
 	@Test
-	void ShouldPostFileResponse() {
+	public void ShouldPostFileResponse() {
 		String existingFile = "existing";
 		HashMap<String, List<FileNode>> files = Server.getInstance().getFileDistribution();
 		files.put(existingFile, new ArrayList<>());
