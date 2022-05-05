@@ -20,15 +20,6 @@ import csueb.cs401.common.Event;
 		
 		
 		//******************************************************
-		// Default constructor
-		//*******************************************************
-		public void EventLog() {
-			initList();
-		}
-		
-		
-		
-		//******************************************************
 		// Author: Travis Cassell
 		// Saves the event log to a system file
 		// Input: none
@@ -55,22 +46,14 @@ import csueb.cs401.common.Event;
 		//*******************************************************
 		private void doSaveToFile() {
 			try {
-				
 				PrintWriter outputFile = new PrintWriter(filename);
-					
 				for (int i = 0; i < events.size(); i++) {
-					
-					String temp = i + "," + events.get(i).getEventData() + "\n";
-					
+					String temp = i + "," + events.get(i).getEventData() + "\n";	
 					outputFile.print(temp);
 				}
-				
 				outputFile.close();
-					
 				} catch (Exception e) {
-					
-					e.printStackTrace();
-							            
+					// System.out.println("Error!");     
 				}
 		}
 
@@ -82,39 +65,24 @@ import csueb.cs401.common.Event;
 		// Input: none
 		// Output: events read in from file to arraylist
 		//*******************************************************
-		public ArrayList<String> loadData() {
-
+		private ArrayList<String> loadData() {
 			ArrayList<String> readEvents = new ArrayList<String>();
 			String sourceName = filename;
-			File file = new File(sourceName);
-			
-			if (!file.exists()) {
-				
-				System.out.println("Error!");
-				
+			File file = new File(sourceName);			
+			if (!file.exists()) {	
+				// System.out.println("Error!");
 			}
-			
 			try {
-				
 				Scanner inputFile = new Scanner(file);		
-				
 				while (inputFile.hasNextLine()) {
-					
 					String line = inputFile.nextLine();
 					readEvents.add(line);
-
 				}
-				
 				inputFile.close();
-				
 			} catch (Exception e) {
-				
-				e.printStackTrace();
-	            
+				// System.out.println("Error!");
 			}
-			
 			return readEvents;
-			
 		}
 
 		
@@ -146,10 +114,17 @@ import csueb.cs401.common.Event;
 		//*******************************************************
 		public String findEvents(String startDate, String endDate) {
 			String foundEvents = new String();
-			for(int i=0; i<this.events.size();i++) {
-			//	if(this.events.get(i).) {
-			//		Date
-			//	}
+			int startIndex = 0;
+			int endIndex = 0;
+			
+			startDate = null;
+			endDate = null;
+			
+			if(startDate == null) startIndex = 0;
+			if(endDate == null) endIndex = this.events.size();
+		
+			for(int i=startIndex; i < endIndex;i++) {
+			foundEvents = foundEvents + i + ": " + events.get(i).getEvent() + "\n";
 			}
 			
 			return foundEvents;
@@ -169,11 +144,10 @@ import csueb.cs401.common.Event;
 			
 			for(int i = 0; i < inList.size(); i++) {
 				 String[] temp = inList.get(i).split(",");
-				// String[] inDesc = temp[1];
-				// String[] inUser = temp[2];
-				 Date inDate = toDate(temp[3]);
-			
+				 Date inDate = toDate(temp[2]);
+				 this.addEvent(temp[0], temp[1], inDate);
 			}
+			
 		}
 
 		
